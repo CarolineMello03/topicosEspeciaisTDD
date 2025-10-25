@@ -1,0 +1,6 @@
+INDEX VERSION 1.134+D:\Faculdade\Tópicos Especiais\Trabalho Teste Unitário\Jogo\.metadata\.plugins\org.eclipse.jdt.core
+1301107788.index
+3163941147.index
+2644778175.index
+2680505505.index
+1865797976.index

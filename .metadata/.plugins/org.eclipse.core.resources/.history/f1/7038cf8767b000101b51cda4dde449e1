@@ -1,0 +1,738 @@
+package com.rpg;
+
+import java.util.Scanner;
+
+public class Game {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Este jogo é uma adaptação da história \"A Pérola da Maldição\"\r\n"
+				+ "do livro-jogo \"Viver ou Morrer\" escrito por Athos Beuren\n\n");
+		
+		System.out.println("Jogo Iniciado!");
+		boolean gameOn = true;
+		int part = 1;
+		
+		Player player = new Player();
+		
+		while (gameOn) {
+			player.printAttributes();
+			switch(part) {
+			case 1: 
+				System.out.println("Um belo dia, no museu, você está admirando uma\r\n"
+						+ "esplêndida e valiosíssima joia, ela se chama \"A\r\n"
+						+ "Pérola\". Você fica o dia inteiro admirando-a, até\r\n"
+						+ "se esquece do trabalho. Na hora de o museu fechar,\r\n"
+						+ "você ainda está olhando-a. Daí um segurança\r\n"
+						+ "chama sua atenção, mas você não dá ouvidos\r\n"
+						+ "a ele, quando, de repente, você é sugado para dentro\r\n"
+						+ "da pérola. Você está num lugar com muita\r\n"
+						+ "neve. Num lugar estranho começa sua aventura.\r\n"
+						+ "Sua missão é encontrar o baú das habilidades maléficas\r\n"
+						+ "e destruí-lo.");
+				
+				System.out.println("Você está no meio da geleira do caos. Uma montanha\r\n"
+						+ "vil, cheia de neve e armadilhas. Você está\r\n"
+						+ "com muito frio. Atrás de você há uma caverna\r\n"
+						+ "que parece quente e confortável.\r\n");
+						
+				System.out.println("Você vai subir a geleira (1),\r\n"
+						+ "vai descer a geleira (2)\r\n"
+						+ "ou entrará na porta atrás de você (3)?");
+				
+				switch(scanner.nextInt()) {
+					case 1: 
+						part = 14;
+						break;
+					case 2:
+						part = 23;
+						break;
+					case 3: 
+						part = 7;
+						break;
+					default:
+						System.out.println("Opção inválida!");
+						break;
+				}
+				break;
+			case 2: 
+				System.out.println("Quando você começa a falar, ele fica quieto só\r\n"
+						+ "ouvindo. Ele coloca a mão atrás do balcão, puxa\r\n"
+						+ "um rifle e atira em você. Ele o rouba apesar de\r\n"
+						+ "você não ter quase nada. Fim.");
+				
+				if (continueGame(scanner)) {
+					part = 1;
+					player = new Player();
+				} else {
+					gameOn = false;
+				}
+				break;
+			case 3: 
+				System.out.println("Depois de vencê-lo, você vai andando, mas escorrega\r\n"
+						+ "no gelo da entrada e vai cambaleando. Quando\r\n"
+						+ "cai, você cai em cima da longa espada do\r\n"
+						+ "Ghoul, que o atravessa rapidamente. Fim.");
+				if (continueGame(scanner)) {
+					part = 1;
+					player = new Player();
+				} else {
+					gameOn = false;
+				}
+			case 4: 
+				System.out.println("Você entra numa encruzilhada, vê dois caminhos,\r\n"
+						+ "um levando à esquerda e outro levando à direita.\r\n"
+						+ "Você olha pensativo para os dois caminhos. \"Droga!\r\n"
+						+ "Droga! Droga, como fui me meter nessa?\"\r\n"
+						+ "Qual você escolhe? O da direita (1) ou o\r\n"
+						+ "dá esquerda (2)?");
+
+				switch(scanner.nextInt()) {
+					case 1: 
+						part = 8;
+						break;
+					case 2:
+						part = 12;
+						break;
+					default:
+						System.out.println("Opção inválida!");
+						break;
+				}
+				break;
+			case 5: 
+				System.out.println("Nesta passarela há um baú!!! Ele é muito esquisito\r\n"
+						+ "e está quase todo enterrado no chão. Você pensa:\r\n"
+						+ "\"Será que esse é o baú? Será que voltarei para minha terra?!\" \r\n"
+						+ "Você vai abri-lo (1) ou desiste desta esperança e vai embora (2)?");
+
+				switch(scanner.nextInt()) {
+					case 1: 
+						part = 11;
+						break;
+					case 2:
+						part = 32;
+						break;
+					default:
+						System.out.println("Opção inválida!");
+						break;
+				}
+				break;
+			case 6: 
+				System.out.println("Você chega a um corredor mal iluminado. Você\r\n"
+						+ "olha melhor à frente e percebe que há um baú.\r\n"
+						+ "Você está prestes à abri-lo quando vê que foi só\r\n"
+						+ "sua imaginação que o enganou. A sua frente há\r\n"
+						+ "uma encruzilhada. Você vai pela esquerda (1) ou\r\n"
+						+ "vai pela direita (2)?");
+
+				switch(scanner.nextInt()) {
+					case 1: 
+						part = 12;
+						break;
+					case 2:
+						part = 4;
+						break;
+					default:
+						System.out.println("Opção inválida!");
+						break;
+				}
+				break;
+			case 7: 
+				System.out.println("Esta caverna é a toca de um Ghoul, que sai das\r\n"
+						+ "sombras, ameaçando-o por invadir sua casa. Ele\r\n"
+						+ "pega uma espada de cabo preto que estava no chão\r\n"
+						+ "e o ataca. FIGHT!!!");
+				
+				System.out.println("GHOUL - HABILIDADE 7 ENERGIA 9\r\n"
+						+ "\r\n");
+				
+				Enemy enemy = new Enemy(7, 9, "GHOUL");
+				
+				Battle battle = new Battle(player, enemy, scanner);
+				
+				if (battle.start()) {
+					System.out.println("Batalha vencida!");
+					int input = 0;
+					while (input != 1) {
+						System.out.println("Prosseguir(1).");
+						input = scanner.nextInt();
+					}
+					part = 15;
+				} else {
+					System.out.println("Fim de jogo!\n");
+					if (continueGame(scanner)) {
+						part = 1;
+						player = new Player();
+					} else {
+						gameOn = false;
+					}
+				}
+				
+				break;
+			case 8: 
+				System.out.println("Parabéns!! Você entrou na encruzilhada do baú!!\r\n"
+						+ "Você pula de alegria. Depois da comemoração, você \r\n"
+						+ "se aproxima dele e coloca as mãos nele sentindo\r\n"
+						+ "uma forte energia. Prosseguir (1).");
+
+				switch(scanner.nextInt()) {
+					case 1: 
+						part = 40;
+						break;
+					default:
+						System.out.println("Opção inválida!");
+						break;
+				}
+				break;
+			case 9: 
+				System.out.println("Você vai descer pela esquerda (1) ou pela direita (2)?");
+
+				switch(scanner.nextInt()) {
+					case 1: 
+						part = 16;
+						break;
+					case 2:
+						part = 29;
+						break;
+					default:
+						System.out.println("Opção inválida!");
+						break;
+				}
+				break;
+			case 10: 
+				System.out.println("Você escorrega e cai de costas do lado da espada\r\n"
+						+ "estranha do Ghoul. Você a olha e percebe que\r\n"
+						+ "nunca viu nada igual. Você pegará a espada (1),\r\n"
+						+ "revistará a caverna (2) ou sairá dela (3)?");
+
+				switch(scanner.nextInt()) {
+					case 1: 
+						part = 13;
+						break;
+					case 2:
+						part = 36;
+						break;
+					case 3:
+						part = 17;
+						break;
+					default:
+						System.out.println("Opção inválida!");
+						break;
+				}
+				break;
+			case 11: 
+				System.out.println("Este é um baú falso e, como você o abriu, libertou\r\n"
+						+ "o demônio de pó. Ele o amaldiçoa, pois conta a lenda,\r\n"
+						+ "\"Quem o baú errado abrir, eternamente irá se\r\n"
+						+ "ferir\". Você não sobrevive e acaba morrendo. Fim.");
+				int input = 0;
+				while(input != 1 && input != 2) {
+					System.out.println("Jogar novamente?");
+					System.out.println("Sim (1)");
+					System.out.println("Não (2)");
+					input = scanner.nextInt();
+				}
+				
+				if (input == 1) {
+					part = 1;
+					player = new Player();
+				} else {
+					gameOn = false;
+				}
+				break;
+			case 12: 
+				System.out.println("Você chega à casa de um gigante. Você está aos\r\n"
+						+ "pés dele. Ele bufa de raiva e o esmaga sem dó.\r\n"
+						+ "Você fracassou em sua missão. Fim.");
+				if (continueGame(scanner)) {
+					part = 1;
+					player = new Player();
+				} else {
+					gameOn = false;
+				}
+				break;
+			case 13: 
+				System.out.println("Você pega a espada e vê que ela é muito boa, parece\r\n"
+						+ "que foi feita para se encaixar na sua mão. De\r\n"
+						+ "repente, você vê tudo borrado. Você morre. A\r\n"
+						+ "espada era amaldiçoada. Você nunca voltará para\r\n"
+						+ "casa. Fim.");
+				if (continueGame(scanner)) {
+					part = 1;
+					player = new Player();
+				} else {
+					gameOn = false;
+				}
+				break;
+			case 14: 
+				System.out.println("Você está no pico da montanha. Está muito frio,\r\n"
+						+ "você está quase congelando e, ainda por cima,\r\n"
+						+ "você olha para baixo e fica tonto vendo a altura\r\n"
+						+ "em que você se encontra. Você fica enjoado, não\r\n"
+						+ "há o que fazer.");
+						
+				System.out.println("Você vai descer a montanha (1),\r\n"
+						+ "ou vai resistir e ficar aí (2)?");
+				
+				switch(scanner.nextInt()) {
+					case 1: 
+						part = 9;
+						break;
+					case 2:
+						part = 33;
+						break;
+					default:
+						System.out.println("Opção inválida!");
+						break;
+				}
+				break;
+			case 15: 
+				System.out.println("Você o vence facilmente e começa a andar para\r\n"
+						+ "frente, você desvia de um poça de gelo, não percebendo\r\n"
+						+ "que há uma outra logo à frente. Teste sua sorte (1).\r\n");
+				
+				if(scanner.nextInt() == 1) {
+					if (player.testLuck()) {
+						System.out.println("\nTeste bem sucedido!");
+						int input = 0;
+						while (input != 1) {
+							System.out.println("Prosseguir(1).");
+							input = scanner.nextInt();
+						}
+						part = 10;
+					}
+					else {
+						System.out.println("\nTeste falhou!\n");
+						int input = 0;
+						while (input != 1) {
+							System.out.println("Prosseguir(1).");
+							input = scanner.nextInt();
+						}
+						part = 3;
+					}
+				}
+				break;
+			case 16:
+				System.out.println("Você lentamente desce com cuidado. Você para\r\n"
+						+ "um pouco para descansar. Quando toma novamente\r\n"
+						+ "sua rota, você chega a um iglu. Você vai\r\n"
+						+ "entrar no iglu (1) ou vai continuar seguindo\r\n"
+						+ "sua rota (2)?");
+
+				switch(scanner.nextInt()) {
+					case 1: 
+						part = 37;
+						break;
+					case 2:
+						part = 18;
+						break;
+					default:
+						System.out.println("Opção inválida!");
+						break;
+				}
+				break;
+			case 17: 
+				System.out.println("Você passa normalmente e encontra outra encruzilhada!\r\n"
+						+ "\"GRRRRR!!\" Você esbraveja com muita raiva. Mas não adianta,\r\n"
+						+ "você deverá escolher um dos dois. Você vai pela esquerda (1)\r\n"
+						+ "ou pela direita (2)?");
+
+				switch(scanner.nextInt()) {
+					case 1: 
+						part = 6;
+						break;
+					case 2:
+						part = 27;
+						break;
+					default:
+						System.out.println("Opção inválida!");
+						break;
+				}
+				break;
+			case 18:
+				System.out.println("Você continua andando e encontra um urso polar,\r\n"
+						+ "ele estava comendo um suculento peixe, mas,\r\n"
+						+ "ao vê-lo, ele larga o peixe e o ataca com êxito.\r\n"
+						+ "FIGHT!!!");
+				
+				System.out.println("URSO POLAR DAS NEVES - HABILIDADE 12 ENERGIA 16\r\n"
+						+ "\r\n");
+				
+				Enemy enemy2 = new Enemy(12, 16, "URSO POLAR DAS NEVES");
+				
+				Battle battle2 = new Battle(player, enemy2, scanner);
+				
+				if (battle2.start()) {
+					System.out.println("Batalha vencida!");
+					int input = 0;
+					while (input != 1) {
+						System.out.println("Prosseguir(1).");
+						input = scanner.nextInt();
+					}
+					part = 31;
+				} else {
+					System.out.println("Fim de jogo!\n");
+					if (continueGame(scanner)) {
+						part = 1;
+						player = new Player();
+					} else {
+						gameOn = false;
+					}
+				}
+				break;
+			case 19:
+				System.out.println("Você encontra três passarelas de pedra e gelo.\r\n"
+						+ "Você fala com raiva para si mesmo:\r\n"
+						+ "- Bom! Acho que estou no final !!\r\n"
+						+ "Qual passarela você escolhe? A passarela A (1)?\r\n"
+						+ " A passarela B (2)? Ou a passarela C (3)?");
+
+				switch(scanner.nextInt()) {
+					case 1: 
+						part = 5;
+						break;
+					case 2:
+						part = 17;
+						break;
+					case 3:
+						part = 39;
+						break;
+					default:
+						System.out.println("Opção inválida!");
+						break;
+				}
+				break;
+			case 20:
+				System.out.println("Quando você o rouba, ele grita:\r\n"
+						+ "- Peguem-no, meus caros! \r\n"
+						+ "Você não entende e acha que o homem está louco,\r\n"
+						+ "porque não há mais ninguém além de você e\r\n"
+						+ "ele ali. Pinguins entram pela porta do iglu e o picam\r\n"
+						+ "até a morte. Fim.");
+				if (continueGame(scanner)) {
+					part = 1;
+					player = new Player();
+				} else {
+					gameOn = false;
+				}
+				break;
+			case 21:
+				System.out.println("Você corre muito pouco e cai na lava borbulhante\r\n"
+						+ "e brilhosa. Como aquela lava não derreteu o gelo\r\n"
+						+ "este tempo todo? Você se derrete por completo.\r\n"
+						+ "Você não sairá deste mundo da pérola. Jamais. Fim.");
+				if (continueGame(scanner)) {
+					part = 1;
+					player = new Player();
+				} else {
+					gameOn = false;
+				}
+				break;
+			case 22: 
+				System.out.println("Você a abre e dela sai um gás invisível, mas de\r\n"
+						+ "cheiro muito forte. Você vai para o lado, mas o\r\n"
+						+ "gás o persegue. Você já não está mais aguentando\r\n"
+						+ "o cheiro. Você resolverá fugir (1) ou resolverá\r\n"
+						+ "ficar ali para ver o que acontece (2)?");
+
+				switch(scanner.nextInt()) {
+					case 1: 
+						part = 30;
+						break;
+					case 2:
+						part = 34;
+						break;
+					default:
+						System.out.println("Opção inválida!");
+						break;
+				}
+				break;
+			case 23:
+				System.out.println("Você desce rapidamente, muito rapidamente, quase\r\n"
+						+ "cambaleando. Teste sua sorte (1).");
+				
+				if(scanner.nextInt() == 1) {
+					if (player.testLuck()) {
+						System.out.println("\nTeste bem sucedido!\n");
+						int input = 0;
+						while (input != 1) {
+							System.out.println("Prosseguir(1).");
+							input = scanner.nextInt();
+						}
+						part = 38;
+					}
+					else {
+						System.out.println("\nTeste falhou!\n");
+						int input = 0;
+						while (input != 1) {
+							System.out.println("Prosseguir(1).");
+							input = scanner.nextInt();
+						}
+						part = 29;
+					}
+				}
+				break;
+			case 24:
+				System.out.println("Você está no paraíso, muito feliz, mas se dá conta\r\n"
+						+ "de que não pode voltar. Você não mais voltará.\r\n"
+						+ "Você pelo menos se consola por estar em um\r\n"
+						+ "paraíso. Você fracassou imensamente. Fim.");
+				
+				if (continueGame(scanner)) {
+					part = 1;
+					player = new Player();
+				} else {
+					gameOn = false;
+				}
+				break;
+			case 25:
+				System.out.println("Você sai chateado por perder seu tempo e não\r\n"
+						+ "descobrir nada. Quando você ia colocar o pé para\r\n"
+						+ "fora, uma grade fecha a entrada, quase cortando\r\n"
+						+ "o seu pé. Você ficará vivendo aqui pelo menos\r\n"
+						+ "até enquanto a comida podre do Ghoul durar.\r\n"
+						+ "Fim.");
+				if (continueGame(scanner)) {
+					part = 1;
+					player = new Player();
+				} else {
+					gameOn = false;
+				}
+				break;
+			case 26:
+				System.out.println("Você acha uma encruzilhada e sabe que talvez um\r\n"
+						+ "dos caminhos é o correto. Mesmo não se sentindo\r\n"
+						+ "muito seguro, você deverá escolher um dos\r\n"
+						+ "caminhos. Você seguirá pela esquerda (1)\r\n"
+						+ "ou resolverá seguir pela direita (2)?");
+
+				switch(scanner.nextInt()) {
+					case 1: 
+						part = 35;
+						break;
+					case 2:
+						part = 19;
+						break;
+					default:
+						System.out.println("Opção inválida!");
+						break;
+				}
+				break;
+			case 27: 
+				System.out.println("Você desce rápido e reto. Logo à frente, vê uma\r\n"
+						+ "parede de espinhos de aço enferrujados. Não dá\r\n"
+						+ "tempo de travar e você vai direto ali. Antes de\r\n"
+						+ "morrer, você sufoca, escorre sangue pela sua boca, \r\n"
+						+ "e seus pulmões se enchem de água. Você sofreu\r\n"
+						+ "até o que não merecia. Fim.");
+				if (continueGame(scanner)) {
+					part = 1;
+					player = new Player();
+				} else {
+					gameOn = false;
+				}
+				break;
+			case 28:
+				System.out.println("Você chega ao outro lado. Seus olhos ficam maravilhados\r\n"
+						+ "com o que você vê. Você chegou a um paraíso. Você olha para trás\r\n"
+						+ " e vê que a passarela sumiu. Prosseguir (1).");
+
+				switch(scanner.nextInt()) {
+					case 1: 
+						part = 24;
+						break;
+					default:
+						System.out.println("Opção inválida!");
+						break;
+				}
+				break;
+			case 29:
+				System.out.println("Você desce calmamente, mas escorrega na neve e\r\n"
+						+ "desce rolando sobre as pedras e sobre a neve. Chegando\r\n"
+						+ "lá embaixo, você dá um suspiro e morre\r\n"
+						+ "lentamente devido às muitas fraturas nos ossos.\r\n"
+						+ "Fim.");
+				if (continueGame(scanner)) {
+					part = 1;
+					player = new Player();
+				} else {
+					gameOn = false;
+				}
+				break;
+			case 30:
+				System.out.println("Você sai correndo mas a toca se fechou. O gás se\r\n"
+						+ "espalha por toda a toca, e dentro de alguns poucos\r\n"
+						+ "minutos você morrerá intoxicado. Fim.");
+				int input = 0;
+				while(input != 1 && input != 2) {
+					System.out.println("Jogar novamente?");
+					System.out.println("Sim (1)");
+					System.out.println("Não (2)");
+					input = scanner.nextInt();
+				}
+				
+				if (input == 1) {
+					part = 1;
+					player = new Player();
+				} else {
+					gameOn = false;
+				}
+				break;
+			case 31:
+				System.out.println("Depois de matá-lo, arrancando seus dentes e\r\n"
+						+ "cravando-os nele mesmo, você vai até o peixe\r\n"
+						+ "do urso, lava-o e o come deliciando-se apesar do peixe estar cru \r\n"
+						+ "Depois, com a outra presa do urso, você arranca\r\n"
+						+ "sua pele e faz um casaco para você. Você segue.\r\n"
+						+ "Prosseguir (1).");
+				
+				switch(scanner.nextInt()) {
+					case 1: 
+						player.addEnergy(2);
+						part = 26;
+						break;
+					default:
+						System.out.println("Opção inválida!");
+						break;
+				}
+				break;
+			case 32:
+				System.out.println("Você vai embora, mas o baú escorrega na neve e\r\n"
+						+ "cai rolando em cima de você, que se afunda na\r\n"
+						+ "neve e, quando tenta voltar, escorrega e afunda\r\n"
+						+ "de novo. Sem ter forças para voltar, você morre\r\n"
+						+ "congelado e enterrado. Fim.");
+				gameOn = false;
+				break;
+			case 33:
+				System.out.println("Você fica esperando que algo aconteça, mas nada\r\n"
+						+ "acontece por muito tempo naquele local. Quando\r\n"
+						+ "você vai descer, você sente suas pernas formigarem\r\n"
+						+ "e quando você as olha elas estão congeladas.\r\n"
+						+ "Você fica preso ali e morre de frio logo, logo.\r\n"
+						+ "Fim.");
+				gameOn = false;
+				break;
+			case 34:
+				System.out.println("Você fica ali parado, mesmo se sentindo mal por\r\n"
+						+ "sua incompetência, você fica ali por tanto tempo,\r\n"
+						+ "que acaba morrendo. Você falhou por sua tamanha\r\n"
+						+ "incompetência e ignorância. Você não é\r\n"
+						+ "digno de um herói. Fim.");
+				gameOn = false;
+				break;
+			case 35:
+				System.out.println("Você encontra outra montanha e resolve subir\r\n"
+						+ "com esperanças de que o baú esteja lá. Esta montanha\r\n"
+						+ "é chamada de pico dos abutres. Enquanto\r\n"
+						+ "você pensa distraído, uma avalanche o pega. Fim.");
+				gameOn = false;
+				break;
+			case 36:
+				System.out.println("Você encontra uma caixa enrolada em pedaços de\r\n"
+						+ "pano velho. Você a examina mas não vê nada de\r\n"
+						+ "estranho. Você a abrirá (1) ou você vai\r\n"
+						+ "largá-la e ir embora (2)?");
+
+				switch(scanner.nextInt()) {
+					case 1: 
+						part = 22;
+						break;
+					case 2:
+						part = 25;
+						break;
+					default:
+						System.out.println("Opção inválida!");
+						break;
+				}
+				break;
+			case 37:
+				System.out.println("Você entra para se agasalhar e vê que dentro do\r\n"
+						+ "iglu é uma loja. Atrás do balcão, está sentado um\r\n"
+						+ "homem barbudo e mal-encarado. Você o roubará (1) ou\r\n"
+						+ "vai falar com o homem (2)?");
+
+				switch(scanner.nextInt()) {
+					case 1: 
+						part = 20;
+						break;
+					case 2:
+						part = 2;
+						break;
+					default:
+						System.out.println("Opção inválida!");
+						break;
+				}
+				break;
+			case 38:
+				System.out.println("Você escapa por pouco. Sentindo-se com sorte,\r\n"
+						+ "você sai assoviando e olhando para o céu, vendo\r\n"
+						+ "nuvens cinzentas. Uma delas parece um rosto de\r\n"
+						+ "alguém o observando. Você não dá bola e continua\r\n"
+						+ "a andar. De repente você tropeça e sai rolando. Você\r\n"
+						+ "morreu, pois bateu muitas vezes a cabeça. Fim.");
+				gameOn = false;
+				break;
+			case 39:
+				System.out.println("Você passa pela passarela. Estranhamente ela começa\r\n"
+						+ "a cair muito rápido. Você se esforça e toma\r\n"
+						+ "um pouco de vantagem. Teste sua sorte (1).");
+
+				if(scanner.nextInt() == 1) {
+					if (player.testLuck()) {
+						System.out.println("\nTeste bem sucedido!\n");
+						int input = 0;
+						while (input != 1) {
+							System.out.println("Prosseguir(1).");
+							input = scanner.nextInt();
+						}
+						part = 28;
+					}
+					else {
+						System.out.println("\nTeste falhou!\n");
+						int input = 0;
+						while (input != 1) {
+							System.out.println("Prosseguir(1).");
+							input = scanner.nextInt();
+						}
+						part = 21;
+					}
+				}
+				break;
+			case 40:
+				System.out.println("Você abre o baú, ele se destrói instantaneamente\r\n"
+						+ "e você aparece no museu. Todos, preocupados\r\n"
+						+ "com você, espantam-se ao ver você aparecendo do\r\n"
+						+ "nada. Você conta a eles sobre sua aventura, mas\r\n"
+						+ "acham que você está zombando deles. Mas isso\r\n"
+						+ "não importa, o que importa é que você está de\r\n"
+						+ "volta e ao menos com vida. Mas você não se atreveria\r\n"
+						+ "a olhá-la de novo, não? Mas outros o podem\r\n"
+						+ "fazer. Agora você está de volta e preparado\r\n"
+						+ "para outra aventura!!!\r\n"
+						+ "Fim");
+				
+				System.out.println("PARABÉNS, VOCÊ VENCEU!");
+				gameOn = false;
+				break;
+			}
+		}
+		
+		scanner.close();
+	}
+	
+	public static boolean continueGame(Scanner scanner) {
+		int input = 0;
+		while(input != 1 && input != 2) {
+			System.out.println("Jogar novamente?");
+			System.out.println("Sim (1)");
+			System.out.println("Não (2)");
+			input = scanner.nextInt();
+		}
+		
+		if (input == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
